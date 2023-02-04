@@ -1,0 +1,34 @@
+{
+  "private": true,
+  "name": "rollup-plugin-package-type",
+  "version": "1.0.0",
+  "description": "A micro-plugin that emits a package.json file with just the `type` field set to either `module` or `commonjs`, based on the current output format.",
+  "author": "Stephan 'Septh' Schreiber <septh@sfr.fr>",
+  "keywords": [
+    "rollup",
+    "plugin",
+    "module",
+    "commonjs",
+    "package.json"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Septh/rollup-plugins/plugins/package-type#readme",
+  "repository": "https://github.com/Septh/rollup-plugins.git",
+  "bugs": "https://github.com/Septh/rollup-plugins/issues",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "type": "module",
+  "exports": "./index.js",
+  "types": "./index.d.ts",
+  "peerDependencies": {
+    "rollup": "^3.4.0"
+  },
+  "devDependencies": {
+    "rollup": "^3.13.0"
+  }
+}
