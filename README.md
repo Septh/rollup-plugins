@@ -15,7 +15,7 @@ Some are, or will be, published to npm, others are not and won't be.
 
 ### Won't be published:
 - rollup-plugin-package-type
-  - [plugins/package-type/README.md](plugins/package-type/README.md)
+  - [plugins/package-type](plugins/package-type)
 
 ### Experimental (may or may not be published some day):
 <!-- - [inline](./plugins/inline/README.md) -->
