@@ -1,0 +1,34 @@
+{
+  "private": true,
+  "name": "changelog",
+  "version": "1.0.0",
+  "description": "Script to generate CHANGELOG.md from commits.",
+  "author": "Stephan 'Septh' Schreiber <septh@sfr.fr>",
+  "keywords": [],
+  "license": "MIT",
+  "files": [
+    "./lib"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "type": "module",
+  "bin": "run.js",
+  "scripts": {
+    "prebuild": "rimraf out",
+    "build": "tsc",
+    "watch": "npm run build -- --watch"
+  },
+  "devDependencies": {
+    "@types/conventional-commits-parser": "^3.0.3",
+    "@types/node": "^16.18.11",
+    "@types/semver": "^7.3.13",
+    "@types/yargs-parser": "^21.0.0",
+    "colorette": "^2.0.19",
+    "conventional-commits-parser": "^3.2.4",
+    "execa": "^6.1.0",
+    "prepend-file": "^2.0.1",
+    "semver": "^7.3.8",
+    "yargs-parser": "^21.1.1"
+  }
+}
