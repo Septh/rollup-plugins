@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "name": "rollup-plugins",
+  "workspaces": [
+    "./plugins/*",
+    "./scripts/*",
+    "./test-apps/*"
+  ]
+}
