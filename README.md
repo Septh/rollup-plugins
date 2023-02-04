@@ -7,7 +7,7 @@ Some are, or will be, published to npm, others are not and won't be.
 
 ### Published:
 - rollup-plugin-fast-typescript
-  - [plugins/fast-typescript/README.md](plugins/fast-typescript/README.md)
+  - [plugins/fast-typescript](plugins/fast-typescript)
   - [https://www.npmjs.com/package/rollup-plugin-fast-typescript](https://www.npmjs.com/package/rollup-plugin-fast-typescript)
 
 ### Not yet published:
