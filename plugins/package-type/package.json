@@ -16,7 +16,7 @@
   "repository": "https://github.com/Septh/rollup-plugins.git",
   "bugs": "https://github.com/Septh/rollup-plugins/issues",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=16.19.0"
   },
   "files": [
     "index.js",
@@ -29,6 +29,5 @@
     "rollup": "^3.4.0"
   },
   "devDependencies": {
-    "rollup": "^3.13.0"
   }
 }
