@@ -3,5 +3,4 @@ dist/
 lib/
 build/
 out/
-.npmrc
 zz*
