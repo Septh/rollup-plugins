@@ -1,0 +1,8 @@
+{
+  "explorer.compactFolders": false,
+  "conventionalCommits.scopes": [
+    "repo",
+    "changelog",
+    "fast-typescript"
+  ]
+}
