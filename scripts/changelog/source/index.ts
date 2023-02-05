@@ -69,13 +69,13 @@ export async function run(argv: Argv) {
                 logError('Error while querying/parsing npm info:', registryInfo.message)
             else if (repositoryInfo instanceof Failure)
                 logError('Error while querying/parsing git info:', repositoryInfo.message)
-            else if (repositoryInfo.activeBranch !== packageInfo.shortName && !argv.debug) {
+            else if (repositoryInfo.activeBranch !== packageInfo.shortName) {
                 logWarning(
                     'Please re-run this script while on the', colors.bold(packageInfo.shortName), 'branch',
                     'if you want to generate the changelog.'
                 )
             }
-            else if (repositoryInfo.dirtyPackages.size > 0 && !argv.debug) {
+            else if (repositoryInfo.dirtyPackages.size > 0) {
                 const dirty = Array.from(repositoryInfo.dirtyPackages).map(p => colors.bold(p))
                 logWarning(
                     'Cannot create a commit for a plugin while files from other plugins are modified or even staged.',
@@ -97,7 +97,7 @@ export async function run(argv: Argv) {
                     logError('Current version is lower than the latest tag version in repository!')
                 else if (registryInfo.latestVersion && semver.lt(packageInfo.package.version, registryInfo.latestVersion))
                     logError('Current version is lower than the latest version in registry!')
-                else if (repositoryInfo.previousTag && repositoryInfo.commits.length === 0)
+                else if (repositoryInfo.commits.length === 0)
                     logWarning('No new commits found since last tag, nothing to do.')
                 else {
                     const currentPrereleaseData = semver.prerelease(packageInfo.package.version)
@@ -147,7 +147,7 @@ export async function run(argv: Argv) {
                         logInfo1(`Next version is ${colors.bold(JSON.stringify(nextVersion))}.`)
 
                         if (argv.dryRun) {
-                            logWarning('*** DRY RUN: stopping here, the new changeLogEntry would be:')
+                            logWarning('*** DRY RUN: stopping here, the new changelog entry would be:')
                             delete packageInfo.urls // make it easier on the eye
                             const changeLogEntry = generateChangelogEntry(repositoryInfo, packageInfo, nextVersion)
                             console.log(colors.magentaBright(changeLogEntry))
@@ -202,10 +202,10 @@ export async function run(argv: Argv) {
                                 if (exitCode !== 0)
                                     throw new Error(stderr || 'Error while running git.')
 
-                                logInfo1("All done. Use 'npm publish' to publish package to registry.")
+                                logInfo1(`All done. Use "${colors.bold('npm publish')}" to publish package to registry.`)
                                 logInfo1(
-                                    "You should also probably merge this branch into the main branch",
-                                    "then use 'git push --tags' to update Github."
+                                    "You should also merge this branch into the main branch",
+                                    `then use "${colors.bold('git push --follow-tags')}" to update Github.`
                                 )
                             }
                             catch(e) {
