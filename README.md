@@ -12,6 +12,7 @@ Some are, or will be, published to npm, others are not and won't be.
 
 ### Not yet published:
 <!-- - [node-and-npm](./plugins/node-and-npm/README.md) -->
+- none
 
 ### Won't be published:
 - rollup-plugin-package-type
@@ -19,3 +20,4 @@ Some are, or will be, published to npm, others are not and won't be.
 
 ### Experimental (may or may not be published some day):
 <!-- - [inline](./plugins/inline/README.md) -->
+- none
