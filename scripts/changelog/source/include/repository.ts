@@ -30,29 +30,30 @@ export async function getRepositoryInfo(packageInfo: PackageInfo): Promise<Repos
 
     let info: RepositoryInfo = {
         activeBranch: 'none',
+        /** Files inside the current package. */
         filesToCommit: new Set(),
-        filesToIgnore: new Set(),
+        /** Files inside other package. */
         dirtyPackages: new Set(),
+        /** Files outside any package. */
+        filesToIgnore: new Set(),
         commits: [],
         suggestedBump: VersionBump.patch,
     }
 
     const results = await Promise.allSettled([
         // Get the current branch.
-        execa('git', [
-            'branch', '--show-current'
-        ]).then(({ stdout }) => {
+        execa('git', [ 'branch', '--show-current' ]).then(({ stdout }) => {
             info.activeBranch = stdout
         }),
 
         // Get the list of files to commit.
-        execa('git', [
-            'status',
-            '--porcelain'
-        ]).then(({ stdout }) => {
+        execa('git', [ 'status', '--porcelain' ]).then(({ stdout }) => {
             stdout.split('\n').forEach(change => {
+                // const staged = change.charAt(0) !== ' '
+                // const modified = change.charAt(1) !== ' '
                 const file = change.slice(3),
-                      [ dir, subDir ] = file.split('/')
+                      split = file.split('/'),
+                      [ dir, subDir ] = split
                 if (dir === PLUGINS_DIRECTORY || dir === TEST_APPS_DIRECTORY) {
                     subDir === packageInfo.shortName
                         ? info.filesToCommit.add(file)
@@ -65,8 +66,7 @@ export async function getRepositoryInfo(packageInfo: PackageInfo): Promise<Repos
         }),
 
         // Get the latest tag for this plugin.
-        execa('git', [
-            'tag',
+        execa('git', [ 'tag',
             '--list', util.format(GIT_TAG_FORMAT, packageInfo.package.name, '*'),
             '--sort', 'version:refname',
         ]).then(({ stdout }) => {
@@ -85,16 +85,15 @@ export async function getRepositoryInfo(packageInfo: PackageInfo): Promise<Repos
     try {
         // Get all commits since latest tag.
         const SEPARATOR = '----- 😎 -----'
-        const { stdout } = await execa('git', [
-            '--no-pager',
-            'log', [ info.previousTag, 'HEAD' ].filter(Boolean).join('..'),
+        const { stdout } = await execa('git', [ '--no-pager', 'log',
+            [ info.previousTag, 'HEAD' ].filter(Boolean).join('..'),
             '--format=%B%n-hash-%n%H%n' + SEPARATOR
         ])
 
         // Filter commits based on scope and guess bump type.
         stdout.split(SEPARATOR + '\n').forEach(rawCommit => {
             rawCommit = rawCommit.trim()
-            if (rawCommit) {
+            if (rawCommit.length > 0) {
                 const commit = ccParser.sync(rawCommit) as Commit
                 if (commit.type && (commit.scope === packageInfo.shortName || commit.scope === packageInfo.package.name) && !commit.revert) {
                     commit.breaking = commit.notes.some(({ title }) => /^BREAKING CHANGE:/i.test(title))

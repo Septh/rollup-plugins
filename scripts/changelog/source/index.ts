@@ -57,7 +57,7 @@ export async function run(argv: Argv) {
         else {
             logInfo1('Releasing', colors.bold(pkgLongName), 'package from', colors.bold(`/plugins/${pkgShortName} directory.`))
             if (argv.dryRun)
-                logWarning('*** DRY RUN MODE: No files will be modified.')
+                logWarning('*** DRY RUN MODE: changelog will NOT be modified.')
 
             logInfo2('Gathering infos from npm and git...')
             const [ registryInfo, repositoryInfo ] = await Promise.all([
@@ -72,7 +72,7 @@ export async function run(argv: Argv) {
             else if (repositoryInfo.activeBranch !== packageInfo.shortName && !argv.debug) {
                 logWarning(
                     'Please re-run this script while on the', colors.bold(packageInfo.shortName), 'branch',
-                    'if you want to generate the changelog, commit and tag.'
+                    'if you want to generate the changelog.'
                 )
             }
             else if (repositoryInfo.dirtyPackages.size > 0 && !argv.debug) {
