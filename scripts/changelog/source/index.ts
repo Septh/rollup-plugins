@@ -4,19 +4,19 @@ import semver from 'semver'
 import { execa } from 'execa'
 import prependFile from 'prepend-file'
 import type { Argv } from './argv.js'
-import * as colors from './include/color.js'
-import { getPackageInfo } from './include/package.js'
-import { getRepositoryInfo, VersionBump } from './include/repository.js'
-import { getRegistryInfo } from './include/registry.js'
-import { generateChangelogEntry } from './include/changelog.js'
-import { Failure, errorToString } from './include/error.js'
+import * as colors from './util/color.js'
+import { getPackageInfo } from './package.js'
+import { getRepositoryInfo, VersionBump } from './repository.js'
+import { getRegistryInfo } from './registry.js'
+import { generateChangelogEntry } from './changelog.js'
+import { Failure, errorToString } from './util/error.js'
 import {
     PLUGINS_DIRECTORY, PLUGIN_NAME_PREFIX,
     PACKAGE_FILE, PACKAGE_LOCK_FILE, CHANGELOG_FILE,
     GIT_COMMIT_FORMAT, GIT_TAG_FORMAT,
-} from './include/consts.js'
-import { findUp } from './include/file.js'
-import { enumerateArray } from './include/array.js'
+} from './util/consts.js'
+import { findUp } from './util/file.js'
+import { enumerateArray } from './util/array.js'
 
 const logInfo1   = (...texts: string[]) => console.log(colors.cyan(...texts))
 const logInfo2   = (...texts: string[]) => console.log(colors.blue(...texts))

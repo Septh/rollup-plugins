@@ -1,5 +1,5 @@
 import { execa } from 'execa'
-import { Failure } from './error.js'
+import { Failure } from './util/error.js'
 import type { PackageInfo } from './package.js'
 
 export interface RegistryInfo {

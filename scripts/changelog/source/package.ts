@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { findUp } from './file.js'
-import { PACKAGE_FILE } from './consts.js'
-import { Failure } from './error.js'
+import { findUp } from './util/file.js'
+import { PACKAGE_FILE } from './util/consts.js'
+import { Failure } from './util/error.js'
 
 export interface PackageInfo {
     workspaceRoot: string
