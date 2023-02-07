@@ -25,3 +25,5 @@ Options:
 | `--dry`, `--dry-run` or `--preview` | Run but do not modify files
 | `--major`, `--minor`, `--patch`,<br>`--premajor`, `--preminor`, `--prepatch`<br>or `--prerelase` | Use said bump instead of guessing it
 | `--preid <id>` | Use `id` as pre-release id (eg. `alpha`, `rc`...)
+| `--no-commit`| Don't commit changes
+| `--no-tag`| Don't create tag (implies `--no-commit`)

@@ -9,6 +9,7 @@ export type Argv = Partial<Record<semver.ReleaseType, boolean> & {
     registry: string
     debug: boolean
     tag: boolean
+    commit: boolean
 }>
 
 export const argv = yargs(process.argv.slice(2), {
@@ -17,5 +18,9 @@ export const argv = yargs(process.argv.slice(2), {
         help: [ 'h' ],
         dryRun: [ 'dry', 'preview', 'p' ],
         preid: [ 'preId', 'pre' ]
+    },
+    default: {
+        tag: true,
+        commit: true
     }
 }) as Argv

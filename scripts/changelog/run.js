@@ -9,5 +9,5 @@ else if (argv.help) {
 }
 else {
     const { run } = await import('./out/index.js')
-    run(argv)
+    run()
 }

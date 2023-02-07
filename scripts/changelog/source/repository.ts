@@ -10,102 +10,108 @@ export type Commit = ccParser.Commit & {
 }
 
 export enum VersionBump {
-    patch,
-    minor,
-    major
+    None,
+    Patch,
+    Minor,
+    Major
 }
 
 export interface RepositoryInfo {
     activeBranch: string
+    /** Files inside the current package. */
     filesToCommit: Set<string>
-    filesToIgnore: Set<string>
+    /** Files inside other packages. */
     dirtyPackages: Set<string>
+    /** Files outside any package. */
+    filesToIgnore: Set<string>
+    /** List of commits scoped to the package. */
     commits: Commit[]
+    suggestedBump: VersionBump
     previousTag?: string
     previousTagVersion?: string
-    suggestedBump: VersionBump
 }
+
+const COMMITS_SEPARATOR = '----- 😎 -----'
 
 export async function getRepositoryInfo(packageInfo: PackageInfo): Promise<RepositoryInfo | Failure> {
 
-    let info: RepositoryInfo = {
+    const info: RepositoryInfo = {
         activeBranch: 'none',
-        /** Files inside the current package. */
         filesToCommit: new Set(),
-        /** Files inside other package. */
         dirtyPackages: new Set(),
-        /** Files outside any package. */
         filesToIgnore: new Set(),
+        suggestedBump: VersionBump.None,
         commits: [],
-        suggestedBump: VersionBump.patch,
-    }
-
-    const results = await Promise.allSettled([
-        // Get the current branch.
-        execa('git', [ 'branch', '--show-current' ]).then(({ stdout }) => {
-            info.activeBranch = stdout
-        }),
-
-        // Get the list of files to commit.
-        execa('git', [ 'status', '--porcelain' ]).then(({ stdout }) => {
-            stdout.split('\n').forEach(change => {
-                // const staged = change.charAt(0) !== ' '
-                // const modified = change.charAt(1) !== ' '
-                const file = change.slice(3),
-                      split = file.split('/'),
-                      [ dir, subDir ] = split
-                if (dir === PLUGINS_DIRECTORY || dir === TEST_APPS_DIRECTORY) {
-                    subDir === packageInfo.shortName
-                        ? info.filesToCommit.add(file)
-                        : info.dirtyPackages.add(`${dir}/${subDir}`)
-                }
-                else if (dir === SCRIPTS_DIRECTORY)
-                    info.filesToIgnore.add(`${dir}/${subDir}`)
-                else info.filesToCommit.add(file)
-            })
-        }),
-
-        // Get the latest tag for this plugin.
-        execa('git', [ 'tag',
-            '--list', util.format(GIT_TAG_FORMAT, packageInfo.package.name, '*'),
-            '--sort', 'version:refname',
-        ]).then(({ stdout }) => {
-            if (stdout.length) {
-                info.previousTag = stdout.split('\n').pop()!
-                info.previousTagVersion = /v(\d+\.\d+\.\d+)/.exec(info.previousTag)?.[1]
-            }
-        })
-    ])
-
-    for (const result of results) {
-        if (result.status === 'rejected')
-            return new Failure(errorToString(result.reason, { 'ENOENT': 'git not found' }))
     }
 
     try {
-        // Get all commits since latest tag.
-        const SEPARATOR = '----- 😎 -----'
-        const { stdout } = await execa('git', [ '--no-pager', 'log',
-            [ info.previousTag, 'HEAD' ].filter(Boolean).join('..'),
-            '--format=%B%n-hash-%n%H%n' + SEPARATOR
-        ])
+        await Promise.all([
+            // Get the current branch.
+            execa('git', [ 'branch', '--show-current' ]).then(({ stdout }) => {
+                if (stdout.startsWith('fatal: '))
+                    throw new Error(stdout.slice(7))
 
-        // Filter commits based on scope and guess bump type.
-        stdout.split(SEPARATOR + '\n').forEach(rawCommit => {
-            rawCommit = rawCommit.trim()
-            if (rawCommit.length > 0) {
-                const commit = ccParser.sync(rawCommit) as Commit
-                if (commit.type && (commit.scope === packageInfo.shortName || commit.scope === packageInfo.package.name) && !commit.revert) {
-                    commit.breaking = commit.notes.some(({ title }) => /^BREAKING CHANGE:/i.test(title))
-                    if (commit.breaking)
-                        info.suggestedBump = VersionBump.major
-                    else if (commit.type === 'feat' && info.suggestedBump !== VersionBump.major)
-                        info.suggestedBump = VersionBump.minor
+                if (stdout.length)
+                    info.activeBranch = stdout
+            }),
 
-                    info.commits.push(commit)
+            // Get the list of files to commit.
+            execa('git', [ 'status', '--porcelain' ]).then(({ stdout }) => {
+                stdout.split('\n').forEach(change => {
+                    // const isStaged = change.charAt(0) !== ' '
+                    // const isModified = change.charAt(1) !== ' '
+                    const file = change.slice(3),
+                          [ dir, subDir ] = file.split('/')
+                    if (dir === PLUGINS_DIRECTORY || dir === TEST_APPS_DIRECTORY) {
+                        subDir === packageInfo.shortName
+                            ? info.filesToCommit.add(file)
+                            : info.dirtyPackages.add(`${dir}/${subDir}`)
+                    }
+                    else if (dir !== SCRIPTS_DIRECTORY)
+                        info.filesToCommit.add(file)
+                })
+            }),
+
+            // Get the latest tag for this plugin, then all commits since this tag,
+            // then flter these commits based on scope and guess bump type.
+            execa('git', [ 'tag',
+                '--list', util.format(GIT_TAG_FORMAT, packageInfo.package.name, '*'),
+                '--sort', 'version:refname',
+            ])
+            .then(({ stdout }) => {
+                let range = 'HEAD'
+                if (stdout.length) {
+                    info.previousTag = stdout.split('\n').pop()!
+                    info.previousTagVersion = /^v(\d+\.\d+\.\d+)/.exec(info.previousTag)?.[1]
+
+                    range = info.previousTag + '..HEAD'
                 }
-            }
-        })
+
+                return execa('git', [ '--no-pager', 'log',
+                    range,
+                    '--format=%B%n-hash-%n%H%n' + COMMITS_SEPARATOR
+                ])
+            })
+            .then(({ stdout }) => {
+                stdout.split(COMMITS_SEPARATOR + '\n').forEach(rawCommit => {
+                    rawCommit = rawCommit.trim()
+                    if (rawCommit.length > 0) {
+                        const commit = ccParser.sync(rawCommit) as Commit
+                        if (commit.type && (commit.scope === packageInfo.shortName || commit.scope === packageInfo.package.name) && !commit.revert) {
+                            commit.breaking = commit.notes.some(({ title }) => /^BREAKING CHANGE:/i.test(title))
+                            if (commit.breaking)
+                                info.suggestedBump = VersionBump.Major
+                            else if (commit.type === 'feat' && info.suggestedBump < VersionBump.Major)
+                                info.suggestedBump = VersionBump.Minor
+                            else if (commit.type === 'fix' && info.suggestedBump < VersionBump.Minor)
+                                info.suggestedBump = VersionBump.Patch
+
+                            info.commits.push(commit)
+                        }
+                    }
+                })
+            })
+        ])
 
         return info
     }
