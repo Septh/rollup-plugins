@@ -10,10 +10,10 @@ export type Commit = ccParser.Commit & {
 }
 
 export enum VersionBump {
-    None,
-    Patch,
-    Minor,
-    Major
+    none,
+    patch,
+    minor,
+    major
 }
 
 export interface RepositoryInfo {
@@ -40,7 +40,7 @@ export async function getRepositoryInfo(packageInfo: PackageInfo): Promise<Repos
         filesToCommit: new Set(),
         dirtyPackages: new Set(),
         filesToIgnore: new Set(),
-        suggestedBump: VersionBump.None,
+        suggestedBump: VersionBump.none,
         commits: [],
     }
 
@@ -100,11 +100,11 @@ export async function getRepositoryInfo(packageInfo: PackageInfo): Promise<Repos
                         if (commit.type && (commit.scope === packageInfo.shortName || commit.scope === packageInfo.package.name) && !commit.revert) {
                             commit.breaking = commit.notes.some(({ title }) => /^BREAKING CHANGE:/i.test(title))
                             if (commit.breaking)
-                                info.suggestedBump = VersionBump.Major
-                            else if (commit.type === 'feat' && info.suggestedBump < VersionBump.Major)
-                                info.suggestedBump = VersionBump.Minor
-                            else if (commit.type === 'fix' && info.suggestedBump < VersionBump.Minor)
-                                info.suggestedBump = VersionBump.Patch
+                                info.suggestedBump = VersionBump.major
+                            else if (commit.type === 'feat' && info.suggestedBump < VersionBump.major)
+                                info.suggestedBump = VersionBump.minor
+                            else if (commit.type === 'fix' && info.suggestedBump < VersionBump.minor)
+                                info.suggestedBump = VersionBump.patch
 
                             info.commits.push(commit)
                         }

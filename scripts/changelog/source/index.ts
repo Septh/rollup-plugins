@@ -122,9 +122,9 @@ export async function run() {
         return logError('Current version is lower than the latest version in registry!')
 
     if (repositoryInfo.commits.length === 0)
-        return logError('No new commits found since last tag, nothing to do.')
+        return logWarning('No new commits found since last tag: nothing to do.')
 
-    if (repositoryInfo.suggestedBump === VersionBump.None)
+    if (repositoryInfo.suggestedBump === VersionBump.none)
         return logWarning('Detected no breaking change, no new feature and no bug fix: no need to release.')
 
     // Guess next version number.
@@ -150,7 +150,7 @@ export async function run() {
         askedReleaseType ??= (
             currentPrereleaseData
                 ? 'prerelease'
-                : repositoryInfo.suggestedBump === VersionBump.Patch
+                : repositoryInfo.suggestedBump === VersionBump.patch
                     ? askedPrereleaseId ? 'prepatch' : 'patch'
                     : askedPrereleaseId ? 'preminor' : 'minor'
         )
@@ -196,8 +196,8 @@ export async function run() {
         logInfo2("Staging changed files...")
         const { exitCode, stderr } = await execa('git', [ 'add',
             `:/${PACKAGE_LOCK_FILE}`,
-            `:/${PLUGINS_DIRECTORY}/${packageInfo.packageDir}/${PACKAGE_FILE}`,
-            `:/${PLUGINS_DIRECTORY}/${packageInfo.packageDir}/${CHANGELOG_FILE}`,
+            `:/${packageInfo.packageDir}/${PACKAGE_FILE}`,
+            `:/${packageInfo.packageDir}/${CHANGELOG_FILE}`,
             ...repositoryInfo.filesToCommit
         ], { cwd: packageInfo.workspaceRoot })
         .then(() => {
