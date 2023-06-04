@@ -22,7 +22,7 @@
   "dependencies": {
     "colorette": "^2.0.19",
     "conventional-commits-parser": "^3.2.4",
-    "execa": "^6.1.0",
+    "execa": "^7.1.0",
     "prepend-file": "^2.0.1",
     "semver": "^7.3.8",
     "source-map-support": "^0.5.21",
