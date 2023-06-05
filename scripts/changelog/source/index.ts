@@ -64,11 +64,11 @@ export async function run() {
     if (packageInfo instanceof Failure)
         return logError(packageInfo.message)
 
-    if (packageInfo.package.name !== pkgLongName)
-        return logError(`Name mismatch in ${PACKAGE_FILE}, expected ${JSON.stringify(pkgLongName)}, found ${JSON.stringify(packageInfo.package.name)}.`)
-
     if (packageInfo.package.private)
         return logError('Cannot publish a private package.')
+
+    if (packageInfo.package.name !== pkgLongName)
+        return logError(`Name mismatch in ${PACKAGE_FILE}, expected ${JSON.stringify(pkgLongName)}, found ${JSON.stringify(packageInfo.package.name)}.`)
 
     if (!semver.valid(packageInfo.package.version))
         return logError(`Invalid version in ${PACKAGE_FILE}: ${JSON.stringify(packageInfo.package.version)}.`)
@@ -124,8 +124,9 @@ export async function run() {
     if (repositoryInfo.commits.length === 0)
         return logWarning('No new commits found since last tag: nothing to do.')
 
-    if (repositoryInfo.suggestedBump === VersionBump.none)
+    if (repositoryInfo.suggestedBump === VersionBump.none) {
         return logWarning('Detected no breaking change, no new feature and no bug fix: no need to release.')
+    }
 
     // Guess next version number.
     const currentPrereleaseData = semver.prerelease(packageInfo.package.version)

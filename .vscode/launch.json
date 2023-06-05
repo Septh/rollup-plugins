@@ -13,17 +13,18 @@
             },
             "type": "node",
             "request": "launch",
+            "cwd": "${workspaceFolder}/plugins/fast-typescript",
+            "program": "${workspaceFolder}/scripts/changelog/cli.js",
+            "args": [
+                "--debug", "--dry-run"
+            ],
+            "console": "integratedTerminal",
+            "outputCapture": "std",
+            "internalConsoleOptions": "neverOpen",
             "skipFiles": [
                 "<node_internals>/**",
                 "**/node_modules/**"
-            ],
-            "cwd": "${workspaceFolder}/plugins/fast-typescript",
-            "program": "${workspaceFolder}/scripts/changelog/run.js",
-            "args": [
-                "--debug"
-            ],
-            "outputCapture": "console",
-            "internalConsoleOptions": "openOnFirstSessionStart"
+            ]
         }
     ]
 }

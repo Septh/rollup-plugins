@@ -2,30 +2,26 @@
   "compilerOptions": {
 
     // Libs
-    "lib": [ "es2022" ],
+    "lib": [ "ESNext" ],
+    "skipLibCheck": true,
     "skipDefaultLibCheck": true,
 
     // Input
     "moduleResolution": "Node16",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true,
 
     // Output
     "target": "ES2022",
     "module": "Node16",
     "importHelpers": true,
-    "removeComments": false,
     "sourceMap": true,
-    "inlineSourceMap": false,
     "declaration": true,
-    "declarationMap": false,
-    "stripInternal": true,
 
     // Type checking
     "strict": true,
-    "isolatedModules": true,
     "exactOptionalPropertyTypes": false,
     "noImplicitOverride": true,
     "noImplicitReturns": true,

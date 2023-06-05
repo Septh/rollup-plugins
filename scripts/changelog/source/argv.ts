@@ -7,9 +7,9 @@ export type Argv = Partial<Record<semver.ReleaseType, boolean> & {
     dryRun: boolean
     preid: string
     registry: string
-    debug: boolean
     tag: boolean
     commit: boolean
+    // debug: boolean
 }>
 
 export const argv = yargs(process.argv.slice(2), {

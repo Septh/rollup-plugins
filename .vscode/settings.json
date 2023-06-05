@@ -1,8 +1,8 @@
 {
-  "explorer.compactFolders": false,
   "conventionalCommits.scopes": [
     "repo",
     "changelog",
     "fast-typescript"
-  ]
+  ],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

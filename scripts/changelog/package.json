@@ -4,16 +4,11 @@
   "version": "1.0.0",
   "description": "Script to generate CHANGELOG.md from latest commits.",
   "author": "Stephan 'Septh' Schreiber <septh@sfr.fr>",
-  "keywords": [],
-  "license": "MIT",
-  "files": [
-    "./lib"
-  ],
   "engines": {
     "node": ">=16.19.0"
   },
   "type": "module",
-  "bin": "run.js",
+  "bin": "./cli.js",
   "scripts": {
     "prebuild": "rimraf out",
     "build": "tsc",
