@@ -8,7 +8,7 @@
     "node": ">=16.19.0"
   },
   "type": "module",
-  "bin": "./cli.js",
+  "bin": "./run.js",
   "scripts": {
     "prebuild": "rimraf out",
     "build": "tsc",

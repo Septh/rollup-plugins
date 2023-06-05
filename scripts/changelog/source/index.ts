@@ -86,12 +86,8 @@ export async function run() {
     if (repositoryInfo instanceof Failure)
         return logError('Error while querying/parsing git info:', repositoryInfo.message)
 
-    if (repositoryInfo.activeBranch !== packageInfo.shortName) {
-        return logError(
-            'Please re-run this script while on the', colors.bold(packageInfo.shortName), 'branch',
-            'if you want to generate the changelog.'
-        )
-    }
+    if (repositoryInfo.activeBranch !== packageInfo.shortName && !argv.debug)
+        return logError('Please re-run this script while on the', colors.bold(packageInfo.shortName), 'branch.')
 
     if (repositoryInfo.dirtyPackages.size > 0) {
         const dirty = Array.from(repositoryInfo.dirtyPackages).map(p => colors.bold(p))

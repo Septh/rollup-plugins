@@ -2,8 +2,7 @@
   "extends": "../../tsconfig.json",
   "include": [ "source/**/*.ts" ],
   "compilerOptions": {
-    "outDir": "out",
-    "verbatimModuleSyntax": true
+    "outDir": "out"
   },
   "ts-node": {
     "esm": true

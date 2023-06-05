@@ -46,7 +46,8 @@ export async function getRepositoryInfo(packageInfo: PackageInfo): Promise<Repos
 
     try {
         await Promise.all([
-            // Get the current branch.
+
+            // Get the active branch.
             execa('git', [ 'branch', '--show-current' ]).then(({ stdout }) => {
                 if (stdout.startsWith('fatal: '))
                     throw new Error(stdout.slice(7))
@@ -57,19 +58,23 @@ export async function getRepositoryInfo(packageInfo: PackageInfo): Promise<Repos
 
             // Get the list of files to commit.
             execa('git', [ 'status', '--porcelain' ]).then(({ stdout }) => {
-                stdout.split('\n').forEach(change => {
-                    // const isStaged = change.charAt(0) !== ' '
-                    // const isModified = change.charAt(1) !== ' '
-                    const file = change.slice(3),
-                          [ dir, subDir ] = file.split('/')
-                    if (dir === PLUGINS_DIRECTORY || dir === TEST_APPS_DIRECTORY) {
-                        subDir === packageInfo.shortName
-                            ? info.filesToCommit.add(file)
-                            : info.dirtyPackages.add(`${dir}/${subDir}`)
-                    }
-                    else if (dir !== SCRIPTS_DIRECTORY)
-                        info.filesToCommit.add(file)
-                })
+                if (stdout.length > 0) {
+                    stdout.split('\n').forEach(change => {
+                        // const isStaged = change.charAt(0) !== ' '
+                        // const isModified = change.charAt(1) !== ' '
+                        const file = change.slice(3),
+                              [ dir, subDir ] = file.split('/')
+                        if (dir === PLUGINS_DIRECTORY || dir === TEST_APPS_DIRECTORY) {
+                            subDir === packageInfo.shortName
+                                ? info.filesToCommit.add(file)
+                                : info.dirtyPackages.add(`${dir}/${subDir}`)
+                        }
+                        else if (dir === SCRIPTS_DIRECTORY)
+                            info.filesToIgnore.add(file)
+                        else
+                            info.filesToCommit.add(file)
+                    })
+                }
             }),
 
             // Get the latest tag for this plugin, then all commits since this tag,

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// @ts-check
 import 'source-map-support/register.js'
 import { argv } from './out/argv.js'
 

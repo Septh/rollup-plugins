@@ -14,9 +14,9 @@
             "type": "node",
             "request": "launch",
             "cwd": "${workspaceFolder}/plugins/fast-typescript",
-            "program": "${workspaceFolder}/scripts/changelog/cli.js",
+            "program": "${workspaceFolder}/scripts/changelog/run.js",
             "args": [
-                // "--debug",
+                "--debug",
                 // "--dry-run"
             ],
             "console": "integratedTerminal",
