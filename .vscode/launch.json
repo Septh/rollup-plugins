@@ -16,7 +16,8 @@
             "cwd": "${workspaceFolder}/plugins/fast-typescript",
             "program": "${workspaceFolder}/scripts/changelog/cli.js",
             "args": [
-                "--debug", "--dry-run"
+                // "--debug",
+                // "--dry-run"
             ],
             "console": "integratedTerminal",
             "outputCapture": "std",
