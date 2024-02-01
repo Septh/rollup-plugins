@@ -26,8 +26,6 @@
   "exports": "./index.js",
   "types": "./index.d.ts",
   "peerDependencies": {
-    "rollup": "^3.4.0"
-  },
-  "devDependencies": {
+    "rollup": "^4.0.0"
   }
 }

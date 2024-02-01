@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "changelog",
+  "name": "@septh/changelog",
   "version": "1.0.0",
   "description": "Script to generate CHANGELOG.md from latest commits.",
   "author": "Stephan 'Septh' Schreiber <septh@sfr.fr>",
@@ -8,25 +8,27 @@
     "node": ">=16.19.0"
   },
   "type": "module",
-  "bin": "./run.js",
+  "bin": {
+    "changelog": "./run.js"
+  },
   "scripts": {
     "prebuild": "rimraf out",
     "build": "tsc",
     "watch": "npm run build -- --watch"
   },
   "dependencies": {
-    "colorette": "^2.0.19",
-    "conventional-commits-parser": "^3.2.4",
-    "execa": "^7.1.0",
+    "colorette": "^2.0.20",
+    "conventional-commits-parser": "^5.0.0",
+    "execa": "^8.0.1",
     "prepend-file": "^2.0.1",
-    "semver": "^7.3.8",
+    "semver": "^7.5.4",
     "source-map-support": "^0.5.21",
     "yargs-parser": "^21.1.1"
   },
   "devDependencies": {
-    "@types/conventional-commits-parser": "^3.0.3",
-    "@types/semver": "^7.3.13",
-    "@types/source-map-support": "^0.5.6",
-    "@types/yargs-parser": "^21.0.0"
+    "@types/conventional-commits-parser": "^3.0.6",
+    "@types/semver": "^7.5.6",
+    "@types/source-map-support": "^0.5.10",
+    "@types/yargs-parser": "^21.0.3"
   }
 }
