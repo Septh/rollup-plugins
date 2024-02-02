@@ -7,18 +7,17 @@
     "skipDefaultLibCheck": true,
 
     // Input
-    "moduleResolution": "Node16",
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": false,
 
     // Output
-    "target": "ES2022",
+    "target": "ESNext",
     "module": "Node16",
-    "importHelpers": true,
     "sourceMap": true,
     "declaration": true,
+    "removeComments": true,
 
     // Type checking
     "strict": true,

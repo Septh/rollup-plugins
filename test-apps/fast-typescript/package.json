@@ -1,0 +1,12 @@
+{
+  "name": "test-fast-typescript",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no te,st specified\" && exit 1"
+  },
+  "devDependencies": {
+    "rollup-plugin-fast-typescript": "^1.1.0"
+  }
+}

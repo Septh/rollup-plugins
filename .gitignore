@@ -1,6 +1,7 @@
 node_modules/
-dist/
 lib/
+dist/
 build/
 out/
 zz*
+*.tgz

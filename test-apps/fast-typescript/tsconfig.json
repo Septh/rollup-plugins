@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "source",
-    "outDir": "build",
+    "outDir": "out",
     "isolatedModules": true,
     "resolveJsonModule": true,
     "removeComments": false
