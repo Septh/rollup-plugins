@@ -17,6 +17,7 @@
   },
   "scripts": {},
   "dependencies": {
+    "@septh/ts-run": "^1.1.0",
     "colorette": "^2.0.20",
     "conventional-commits-parser": "^5.0.0",
     "execa": "^8.0.1",
@@ -26,7 +27,6 @@
     "yargs-parser": "^21.1.1"
   },
   "devDependencies": {
-    "@septh/ts-run": "^1.1.0",
     "@types/conventional-commits-parser": "^3.0.6",
     "@types/semver": "^7.5.6",
     "@types/source-map-support": "^0.5.10",

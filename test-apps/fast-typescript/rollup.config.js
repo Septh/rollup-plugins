@@ -15,6 +15,6 @@ export default defineConfig({
         externals(),
         resolve(),
         commonjs(),
-        fastTypescript('sucrase')
+        fastTypescript('esbuild')
     ]
 })
