@@ -1,15 +1,3 @@
 #!/usr/bin/env node
-// @ts-check
-import 'source-map-support/register.js'
-import { argv } from './out/argv.js'
-
-if (argv.version) {
-    // TODO
-}
-else if (argv.help) {
-    // TODO
-}
-else {
-    const { run } = await import('./out/index.js')
-    run()
-}
+await import('@septh/ts-run/register')
+await import('./source/index.ts')

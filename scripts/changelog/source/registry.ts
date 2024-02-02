@@ -1,6 +1,6 @@
 import { execa } from 'execa'
-import { Failure } from './util/error.js'
-import type { PackageInfo } from './package.js'
+import { Failure } from './util/error.ts'
+import type { PackageInfo } from './package.ts'
 
 export interface RegistryInfo {
     versions: string[]

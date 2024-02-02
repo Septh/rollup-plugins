@@ -1,6 +1,6 @@
 import { EOL } from 'node:os'
-import type { PackageInfo } from './package.js'
-import type { RepositoryInfo } from './repository.js'
+import type { PackageInfo } from './package.ts'
+import type { RepositoryInfo } from './repository.ts'
 
 export function generateChangelogEntry(repositoryInfo: RepositoryInfo, packageInfo: PackageInfo, nextVersion: string) {
 

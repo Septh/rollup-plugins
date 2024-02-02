@@ -11,11 +11,11 @@
   "bin": {
     "changelog": "./run.js"
   },
-  "scripts": {
-    "prebuild": "rimraf out",
-    "build": "tsc",
-    "watch": "npm run build -- --watch"
+  "main": "./run.js",
+  "imports": {
+    "#self": "./package.json"
   },
+  "scripts": {},
   "dependencies": {
     "colorette": "^2.0.20",
     "conventional-commits-parser": "^5.0.0",
@@ -26,9 +26,11 @@
     "yargs-parser": "^21.1.1"
   },
   "devDependencies": {
+    "@septh/ts-run": "^1.1.0",
     "@types/conventional-commits-parser": "^3.0.6",
     "@types/semver": "^7.5.6",
     "@types/source-map-support": "^0.5.10",
-    "@types/yargs-parser": "^21.0.3"
+    "@types/yargs-parser": "^21.0.3",
+    "type-fest": "^4.10.2"
   }
 }

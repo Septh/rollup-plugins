@@ -1,9 +1,9 @@
 import util from 'node:util'
 import { execa } from 'execa'
 import ccParser from 'conventional-commits-parser'
-import type { PackageInfo } from './package.js'
-import { errorToString, Failure } from './util/error.js'
-import { GIT_TAG_FORMAT, PLUGINS_DIRECTORY, SCRIPTS_DIRECTORY, TEST_APPS_DIRECTORY } from './util/consts.js'
+import type { PackageInfo } from './package.ts'
+import { errorToString, Failure } from './util/error.ts'
+import { GIT_TAG_FORMAT, PLUGINS_DIRECTORY, SCRIPTS_DIRECTORY, TEST_APPS_DIRECTORY } from './util/consts.ts'
 
 export type Commit = ccParser.Commit & {
     breaking?: boolean
