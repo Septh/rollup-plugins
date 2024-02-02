@@ -5,6 +5,8 @@ Some are, or will be, published to npm, others are not and won't be.
 
 > All packages are ESM only.
 
+> ⚠ This repo is a mess. Only the `/plugins` directory can be trusted to contain up-to-date, functional code; other directories (`/scripts`, `/test-apps`) are either work in progress and/or stuff useful only to me.
+
 ### Published:
 - rollup-plugin-fast-typescript
   - [plugins/fast-typescript](plugins/fast-typescript)
